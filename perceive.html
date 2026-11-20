@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>观看 — 机器“看”到的，是数字 | 生长 GROWTH LAB</title>
+<meta name="description" content="一张图片在计算机眼里是一个数字矩阵。转动一个 3×3 的卷积核，看边缘、浮雕与模糊如何被算出来。附可交互的卷积实验。">
+<meta name="author" content="郑同学">
+<meta name="theme-color" content="#f2efe7">
+<meta property="og:type" content="article">
+<meta property="og:title" content="观看 — 机器看到的，是数字">
+<meta property="og:description" content="卷积核是一块 3×3 的放大镜，它只问一件事：这里的亮度怎么变？">
+<meta property="og:image" content="assets/img/room-perceive.webp">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" as="font" type="font/woff" href="assets/fonts/growth-serif.woff" crossorigin>
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/pages.css">
+<script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+</head>
+<body>
+
+<a class="skip" href="#main">跳到正文</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+
+<header class="site-head" id="siteHead">
+  <a class="brand" href="index.html" aria-label="生长实验室 · 返回首页">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-cn">生长</span>
+    <span class="brand-en">Growth Lab</span>
+  </a>
+  <nav class="nav" aria-label="主导航">
+    <a href="rules.html">规则</a>
+    <a href="perceive.html" aria-current="page">观看</a>
+    <a href="learn.html">学习</a>
+    <a href="gallery.html">画廊</a>
+    <a href="studio.html">工作室</a>
+    <a href="about.html">关于</a>
+  </nav>
+  <button class="menu-btn" id="menuBtn" aria-label="打开菜单" aria-expanded="false" aria-controls="menu">
+    <span></span><span></span>
+  </button>
+</header>
+
+<nav class="menu" id="menu" aria-label="站点导航" aria-hidden="true">
+  <a href="index.html"><span class="idx">00</span>首页</a>
+  <a href="rules.html"><span class="idx">01</span>规则</a>
+  <a href="perceive.html" aria-current="page"><span class="idx">02</span>观看</a>
+  <a href="learn.html"><span class="idx">03</span>学习</a>
+  <a href="gallery.html"><span class="idx">04</span>画廊</a>
+  <a href="studio.html"><span class="idx">05</span>工作室</a>
+  <a href="about.html"><span class="idx">06</span>关于</a>
+  <div class="menu-foot">
+    <span class="mono">生长 · Growth Lab</span>
+    <span class="mono">2026 / 互动专题</span>
+  </div>
+</nav>
+
+<main id="main">
+
+  <header class="page-head">
+    <div class="wrap">
+      <p class="eyebrow eyebrow--accent reveal">02 — 观看</p>
+      <h1 class="page-title reveal" style="--d:1">机器看见的数字</h1>
+      <div class="page-head-foot">
+        <p class="lede reveal" style="--d:2">
+          相机把光变成电，把电变成整数。一张 1200×800 的照片，是两百八十八万个 0 到 255 之间的数字。算法并不真的在看照片，它读的是这些数字。
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <!-- 一、图像即矩阵 -->
+  <section class="section">
+    <div class="wrap cols">
+      <div class="col-5 prose">
+        <p class="reveal">
+          关掉灯，用手机拍一张照片。传感器上每一个小格子接收到的光子数量，被换算成一个整数：
+          越亮越大，最大 255，最小 0。彩色图有三层这样的格子，分别记录红、绿、蓝。
+        </p>
+        <p class="reveal" style="--d:1">
+          所以“一张图”在计算机内部，本质上只是一张<strong>数字表格</strong>。
+          所谓图像处理，就是在这些数字上做加减乘除。
+        </p>
+        <p class="reveal" style="--d:2">
+          1962 年，休伯尔和威泽尔把电极插进猫的视觉皮层，发现有些神经元只对特定方向的亮暗边缘放电。它们不关心那是一条树枝还是一条桌边，只对“这里有一条竖着的边”作出反应。
+        </p>
+      </div>
+      <figure class="col-7 figure reveal" style="--d:1">
+        <img src="assets/img/figure-pixels.svg" alt="一张图片被铺开成一个十二列七行的数字矩阵，每格数值从 0 到 255，其中一格被标注出来" width="852" height="406" loading="lazy">
+        <figcaption class="figcap">
+          <span>图 01 — 同一张图，换一种写法</span>
+          <span>0–255 × 3 通道</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 二、卷积核 -->
+  <section class="section" id="lab">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow reveal">一块放大镜</p>
+        <h2 class="h2 reveal" style="--d:1">3 × 3 的窗口</h2>
+        <p class="sec-note reveal" style="--d:2">
+          卷积核是一块 3×3 的小窗口。它滑过整张图，在每个位置做一次加权求和：
+          九个数乘以九个权重，加起来，变成输出图上的一个数。
+        </p>
+      </div>
+
+      <div class="lab-frame reveal">
+        <div class="lab-stage lab-stage--vision">
+          <div class="vision-split">
+            <div class="vision-pane">
+              <canvas id="visSrc" class="is-interactive" aria-label="程序生成的一张静物图，用来作为卷积的输入"></canvas>
+              <span class="pane-label">输入 · 一张图</span>
+            </div>
+            <div class="vision-pane">
+              <canvas id="visDst" aria-label="卷积核作用后得到的特征图"></canvas>
+              <span class="pane-label">输出 · 特征图</span>
+            </div>
+          </div>
+          <p class="lab-hint" id="visHint">把光标移到左边的图上，看取样窗里的九个数</p>
+        </div>
+
+        <aside class="lab-panel">
+          <div>
+            <h4>卷积核</h4>
+            <div class="seg" id="visKernels" role="group" aria-label="选择卷积核">
+              <button type="button" data-k="edgex" aria-pressed="true">横向边缘</button>
+              <button type="button" data-k="edgey" aria-pressed="false">纵向边缘</button>
+              <button type="button" data-k="emboss" aria-pressed="false">浮雕</button>
+              <button type="button" data-k="sharpen" aria-pressed="false">锐化</button>
+              <button type="button" data-k="blur" aria-pressed="false">模糊</button>
+            </div>
+          </div>
+
+          <div>
+            <h4>3 × 3 权重</h4>
+            <div class="kernel-grid" id="visKernelGrid" aria-hidden="true"></div>
+          </div>
+
+          <dl class="readout">
+            <div class="readout-row"><dt>取样窗中心亮度</dt><dd id="visLuma">—</dd></div>
+            <div class="readout-row"><dt>加权求和</dt><dd id="visSum">—</dd></div>
+          </dl>
+
+          <p class="note">
+            边缘核的九个数加起来是 0，所以平坦的区域输出也是 0，只有亮度变化的地方才会亮起来。
+          </p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 三、堆叠 -->
+  <section class="section">
+    <div class="wrap cols">
+      <div class="col-6">
+        <p class="eyebrow reveal">层叠</p>
+        <p class="pull reveal" style="--d:1">层数越深，看见的越大</p>
+      </div>
+      <div class="col-6 prose" style="grid-column:7 / span 6">
+        <p class="reveal">
+          1989 年，杨立昆用几层卷积网络读手写邮编，错误率低到能直接上邮政流水线。
+          但直到 2012 年，同样的想法才真正用起来，因为在那之前算力不够把层数堆深。
+        </p>
+        <p class="reveal" style="--d:1">
+          层数越深，网络看到的东西越大：第一层找边缘，第二层找由边缘组成的纹理，第三层找纹理组成的部件，再往后，才有“这是一只猫”。每一层都没有被单独教过猫是什么，它们只是被同一个目标推动：把误差降下来。
+        </p>
+        <a class="link reveal" href="learn.html" style="--d:2;margin-top:8px">下一间：从随机到秩序 <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <hr class="rule">
+      <div class="next-row">
+        <a class="next-card" href="rules.html">
+          <span class="mono">← 上一章 01</span>
+          <strong>规则</strong>
+        </a>
+        <a class="next-card next-card--r" href="learn.html">
+          <span class="mono">下一章 03 →</span>
+          <strong>学习</strong>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="index.html" aria-label="生长实验室 · 返回首页">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-cn">生长</span>
+        </a>
+        <p>一个关于「涌现」的互动专题：简单的规则，重复之后长出复杂的世界。所有画面都由代码实时生成。</p>
+      </div>
+      <div class="foot-nav">
+        <p class="foot-h">房间</p>
+        <div class="foot-list">
+          <a href="rules.html">01 · 规则</a>
+          <a href="perceive.html">02 · 观看</a>
+          <a href="learn.html">03 · 学习</a>
+          <a href="gallery.html">04 · 画廊</a>
+          <a href="studio.html">05 · 工作室</a>
+          <a href="about.html">06 · 关于</a>
+        </div>
+      </div>
+      <div class="foot-info">
+        <p class="foot-h">信息</p>
+        <p>2026 年 · 设计与编码：郑同学</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span class="mono">© 2026 生长实验室</span>
+      <span class="mono">Designed &amp; coded by hand</span>
+    </div>
+  </div>
+  <div class="foot-word" aria-hidden="true">生长</div>
+</footer>
+
+<script src="assets/js/core.js" defer></script>
+<script src="assets/js/vision.js" defer></script>
+</body>
+</html>

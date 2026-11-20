@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>关于 — 这个网站是怎么做出来的 | 生长 GROWTH LAB</title>
+<meta name="description" content="关于「生长」：为什么做这个专题、用了哪些技术、素材从哪来、哪些地方取了巧，以及一份诚实的制作说明。">
+<meta name="author" content="郑同学">
+<meta name="theme-color" content="#f2efe7">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于 — 这个网站是怎么做出来的">
+<meta property="og:description" content="用了什么、没用什么、哪些地方取了巧。">
+<meta property="og:image" content="assets/img/room-about.webp">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" as="font" type="font/woff" href="assets/fonts/growth-serif.woff" crossorigin>
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/pages.css">
+<script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+</head>
+<body>
+
+<a class="skip" href="#main">跳到正文</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+
+<header class="site-head" id="siteHead">
+  <a class="brand" href="index.html" aria-label="生长实验室 · 返回首页">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-cn">生长</span>
+    <span class="brand-en">Growth Lab</span>
+  </a>
+  <nav class="nav" aria-label="主导航">
+    <a href="rules.html">规则</a>
+    <a href="perceive.html">观看</a>
+    <a href="learn.html">学习</a>
+    <a href="gallery.html">画廊</a>
+    <a href="studio.html">工作室</a>
+    <a href="about.html" aria-current="page">关于</a>
+  </nav>
+  <button class="menu-btn" id="menuBtn" aria-label="打开菜单" aria-expanded="false" aria-controls="menu">
+    <span></span><span></span>
+  </button>
+</header>
+
+<nav class="menu" id="menu" aria-label="站点导航" aria-hidden="true">
+  <a href="index.html"><span class="idx">00</span>首页</a>
+  <a href="rules.html"><span class="idx">01</span>规则</a>
+  <a href="perceive.html"><span class="idx">02</span>观看</a>
+  <a href="learn.html"><span class="idx">03</span>学习</a>
+  <a href="gallery.html"><span class="idx">04</span>画廊</a>
+  <a href="studio.html"><span class="idx">05</span>工作室</a>
+  <a href="about.html" aria-current="page"><span class="idx">06</span>关于</a>
+  <div class="menu-foot">
+    <span class="mono">生长 · Growth Lab</span>
+    <span class="mono">2026 / 互动专题</span>
+  </div>
+</nav>
+
+<main id="main">
+
+  <header class="page-head">
+    <div class="wrap">
+      <p class="eyebrow eyebrow--accent reveal">06 — 关于</p>
+      <h1 class="page-title reveal" style="--d:1">关于这个网站</h1>
+      <div class="page-head-foot">
+        <p class="lede reveal" style="--d:2">
+          为什么叫“生长”，用了什么，没用什么，以及几处取巧的地方。
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap about-grid">
+
+      <div class="about-main prose">
+        <p class="about-lead reveal">
+          这个网站叫“生长”。
+        </p>
+        <p class="reveal" style="--d:1">
+          我最初想做的是一个讲清楚人工智能的网页，几个概念、几张示意图、一段总结。写到一半发现，那样做出来的东西和我真正想说的没有关系。
+        </p>
+        <p class="reveal" style="--d:2">
+          真正让我着迷的，是另一件事：<strong>规则可以长得比规则本身复杂得多</strong>。
+          康威用四句话写出了会走路的图案；一条 30 号规则能产出随机数；一百零五个数字被梯度推着走几万次，就能在一片空间里划出一条谁也没画过的边界。
+        </p>
+        <p class="reveal" style="--d:3">
+          所以我把它拆成了六个房间：先看见规则，再看见机器如何读图，然后亲手训练一个网络，最后用同一种思路生成十二幅画。它们各自从不同的角度回答同一个问题。
+        </p>
+
+        <hr class="rule" style="margin-block:clamp(36px,5vw,60px)">
+
+        <h2 class="h3 reveal">没有用框架</h2>
+        <p class="reveal">
+          整站是手写的 HTML、CSS 和原生 JavaScript，没有第三方库，也没有构建工具。代价是要自己处理很多琐事，好处是整个页面很小，断网也能完整打开。
+        </p>
+
+        <h2 class="h3 reveal" style="margin-top:32px">素材是算出来的</h2>
+        <p class="reveal">
+          这个网站没有用任何一套现成的模板，也没有从图库下载过一张图。
+          我写了一个 Python 脚本（<code>tools/gen_art.py</code>），
+          让十二幅作品、六张栏目插图、一张分享图和一张像素矩阵示意图全部由代码生成。
+          每一种算法都是自己实现的：流场、等高线、泰森多边形、半调网点、摩尔纹、递归细分、
+          粒子云、波形位移、圆堆积、递归分枝、短线织纹、同心扰动。
+        </p>
+        <p class="reveal">
+          这样做有一个副产品：每一幅画都可以被复现。同一段代码、同一个随机种子，必然得到同一张图。所以画廊里每幅作品都标了种子号，是为了可以被验证。
+        </p>
+
+        <h2 class="h3 reveal" style="margin-top:32px">哪些地方取了巧</h2>
+        <p class="reveal">
+          说清楚比较好：规则、观看、学习、工作室四页的图形是实时计算的，拖动滑块或点击画布时，
+          浏览器真的在跑元胞自动机、在做卷积、在反向传播。画廊里的十二幅是离线生成的图片，
+          因为它们需要被固定和分享，不希望换一台机器就变一个样子。
+        </p>
+        <p class="reveal">
+          另外，首页那株植物并不是真的在生长，它只是在按噪声场画线，不过每一帧都是新画的，关掉再打开形状不会完全一样。
+        </p>
+      </div>
+
+      <aside class="about-side">
+        <div class="reveal">
+          <figure class="figure">
+            <img src="assets/img/room-about.webp" alt="网站的七个页面之间的链接关系示意图" width="900" height="675" loading="lazy">
+            <figcaption class="figcap">
+              <span>图 01 — 七个页面，全部相对链接</span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div>
+          <p class="foot-h">技术清单</p>
+          <dl class="spec-list">
+            <div><dt>结构</dt><dd>7 个手写 HTML 页面，语义化标签，无框架</dd></div>
+            <div><dt>样式</dt><dd>CSS 变量、Grid、Flex、clamp() 流式排版</dd></div>
+            <div><dt>图形</dt><dd>Canvas 2D 实时绘制，DPR 自适应</dd></div>
+            <div><dt>算法</dt><dd>元胞自动机 / 卷积 / 反向传播 + Adam</dd></div>
+            <div><dt>字体</dt><dd>思源宋体（子集化后自托管，约 530 KB）</dd></div>
+            <div><dt>动效</dt><dd>IntersectionObserver + CSS 过渡</dd></div>
+            <div><dt>无障碍</dt><dd>键盘可达、焦点样式、prefers-reduced-motion</dd></div>
+            <div><dt>兼容</dt><dd>Chrome / Edge / Firefox / Safari 近年版本</dd></div>
+          </dl>
+        </div>
+
+        <div>
+          <p class="foot-h">文件结构</p>
+          <pre class="code-block">index.html
+rules.html      perceive.html
+learn.html      gallery.html
+studio.html     about.html
+assets/
+  css/  base.css  pages.css
+  js/   core.js  hero.js  ca.js
+        vision.js  mlp.js
+        gallery.js  studio.js
+  img/  work/*.webp  …
+  fonts/  growth-serif.woff
+tools/
+  gen_art.py</pre>
+        </div>
+
+        <div>
+          <p class="foot-h">作者</p>
+          <p class="note" style="text-transform:none">
+            设计、编码、素材生成：郑同学<br>
+            2026 年 · 持续更新<br>
+            欢迎取用其中的任何一段代码
+          </p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <hr class="rule">
+      <div class="next-row">
+        <a class="next-card" href="studio.html">
+          <span class="mono">← 上一章 05</span>
+          <strong>工作室</strong>
+        </a>
+        <a class="next-card next-card--r" href="index.html">
+          <span class="mono">回到 →</span>
+          <strong>首页</strong>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="index.html" aria-label="生长实验室 · 返回首页">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-cn">生长</span>
+        </a>
+        <p>一个关于「涌现」的互动专题：简单的规则，重复之后长出复杂的世界。所有画面都由代码实时生成。</p>
+      </div>
+      <div class="foot-nav">
+        <p class="foot-h">房间</p>
+        <div class="foot-list">
+          <a href="rules.html">01 · 规则</a>
+          <a href="perceive.html">02 · 观看</a>
+          <a href="learn.html">03 · 学习</a>
+          <a href="gallery.html">04 · 画廊</a>
+          <a href="studio.html">05 · 工作室</a>
+          <a href="about.html">06 · 关于</a>
+        </div>
+      </div>
+      <div class="foot-info">
+        <p class="foot-h">信息</p>
+        <p>2026 年 · 设计与编码：郑同学</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span class="mono">© 2026 生长实验室</span>
+      <span class="mono">Designed &amp; coded by hand</span>
+    </div>
+  </div>
+  <div class="foot-word" aria-hidden="true">生长</div>
+</footer>
+
+<script src="assets/js/core.js" defer></script>
+</body>
+</html>

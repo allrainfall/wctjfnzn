@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>学习 — 从随机到秩序 | 生长 GROWTH LAB</title>
+<meta name="description" content="一个真正在浏览器里训练的神经网络：放几个点，看它如何用梯度下降把误差一点点调小，画出决策边界。">
+<meta name="author" content="郑同学">
+<meta name="theme-color" content="#f2efe7">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习 — 从随机到秩序">
+<meta property="og:description" content="网络不知道答案，它只是在不断地把误差调小。">
+<meta property="og:image" content="assets/img/room-learn.webp">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" as="font" type="font/woff" href="assets/fonts/growth-serif.woff" crossorigin>
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/pages.css">
+<script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+</head>
+<body>
+
+<a class="skip" href="#main">跳到正文</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+
+<header class="site-head" id="siteHead">
+  <a class="brand" href="index.html" aria-label="生长实验室 · 返回首页">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-cn">生长</span>
+    <span class="brand-en">Growth Lab</span>
+  </a>
+  <nav class="nav" aria-label="主导航">
+    <a href="rules.html">规则</a>
+    <a href="perceive.html">观看</a>
+    <a href="learn.html" aria-current="page">学习</a>
+    <a href="gallery.html">画廊</a>
+    <a href="studio.html">工作室</a>
+    <a href="about.html">关于</a>
+  </nav>
+  <button class="menu-btn" id="menuBtn" aria-label="打开菜单" aria-expanded="false" aria-controls="menu">
+    <span></span><span></span>
+  </button>
+</header>
+
+<nav class="menu" id="menu" aria-label="站点导航" aria-hidden="true">
+  <a href="index.html"><span class="idx">00</span>首页</a>
+  <a href="rules.html"><span class="idx">01</span>规则</a>
+  <a href="perceive.html"><span class="idx">02</span>观看</a>
+  <a href="learn.html" aria-current="page"><span class="idx">03</span>学习</a>
+  <a href="gallery.html"><span class="idx">04</span>画廊</a>
+  <a href="studio.html"><span class="idx">05</span>工作室</a>
+  <a href="about.html"><span class="idx">06</span>关于</a>
+  <div class="menu-foot">
+    <span class="mono">生长 · Growth Lab</span>
+    <span class="mono">2026 / 互动专题</span>
+  </div>
+</nav>
+
+<main id="main">
+
+  <header class="page-head">
+    <div class="wrap">
+      <p class="eyebrow eyebrow--accent reveal">03 — 学习</p>
+      <h1 class="page-title reveal" style="--d:1">从随机，<br>到秩序</h1>
+      <div class="page-head-foot">
+        <p class="lede reveal" style="--d:2">
+          一个 2 → 8 → 8 → 1 的小网络，一百零五个参数，初始值是随机的。它要做的事只有一件：把误差一点点调小，重复很多次。
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <!-- 导语 -->
+  <section class="section">
+    <div class="wrap cols">
+      <div class="col-6 prose">
+        <p class="reveal">
+          1958 年，弗兰克·罗森布拉特造了“感知机”：一个能把输入加权求和、超过阈值就输出 1 的机器。
+          当时的报纸说，这台机器即将学会走路、说话、甚至自我复制。
+        </p>
+        <p class="reveal" style="--d:1">
+          他们高兴得太早了。感知机连异或都学不会，而那只涉及四个点。直到三十年后，多层网络和反向传播才绕过了这道墙。
+        </p>
+      </div>
+      <div class="col-5 prose" style="grid-column:8 / span 5">
+        <p class="reveal">
+          下面的实验里就有异或。你可以先让它学这个单层网络学不会的问题，再换成螺旋、圆环或双月。
+        </p>
+        <p class="reveal" style="--d:1">
+          训练过程没有预先算好的结果。每一次前向、反向和参数更新，都发生在你打开的这个页面里。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 三个词 -->
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow reveal">三个词</p>
+        <h2 class="h2 reveal" style="--d:1">三步</h2>
+        <p class="sec-note reveal" style="--d:2">
+          训练一个网络，数学上只有三步。
+        </p>
+      </div>
+
+      <div class="triple">
+        <article class="triple-item reveal" style="--d:0">
+          <span class="triple-num">01</span>
+          <h3>损失</h3>
+          <p>先让网络猜一个答案，再和正确答案比一比，用一个数字记下差了多少。这个数字叫损失。</p>
+        </article>
+        <article class="triple-item reveal" style="--d:1">
+          <span class="triple-num">02</span>
+          <h3>梯度</h3>
+          <p>把每一个参数轻轻推一下，看损失是变大还是变小。哪个方向能让损失变小，就往哪边推。</p>
+        </article>
+        <article class="triple-item reveal" style="--d:2">
+          <span class="triple-num">03</span>
+          <h3>反向传播</h3>
+          <p>用链式法则，把输出端的误差一层层往回传，于是每一层都知道自己该负多少责任。</p>
+        </article>
+      </div>
+
+      <div class="formula reveal">
+        <span class="formula-label">交叉熵损失</span>
+        <code>L = −[ y · ln(ŷ) + (1 − y) · ln(1 − ŷ) ]</code>
+        <span class="formula-note">ŷ 是网络给出的概率，y 是真实标签（0 或 1）。当 ŷ 越接近 y，L 越接近 0。</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 实验台 -->
+  <section class="section" id="lab">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow reveal">实验 03</p>
+        <h2 class="h2 reveal" style="--d:1">训练场</h2>
+        <p class="sec-note reveal" style="--d:2">
+          黑点是类别 A，红点是类别 B。背景的颜色表示网络当前的判断，颜色越深，它越有把握。点击画布可以加入新的点。
+        </p>
+      </div>
+
+      <div class="lab-frame reveal">
+        <div class="lab-stage lab-stage--learn">
+          <canvas id="mlpCanvas" class="is-interactive" aria-label="神经网络在二维平面上学习出的决策边界，以及两类数据点"></canvas>
+          <div class="lab-badge">
+            <span class="tag">2 → 8 → 8 → 1</span>
+            <span class="tag tag--live" id="mlpStatus">训练中</span>
+          </div>
+          <p class="lab-hint" id="mlpHint">点击：加入一个 A 类点　·　按住 Shift 点击：加入 B 类点</p>
+        </div>
+
+        <aside class="lab-panel">
+          <div>
+            <h4>数据集</h4>
+            <div class="seg seg--grid" id="mlpData" role="group" aria-label="选择数据集">
+              <button type="button" data-set="xor" aria-pressed="true">异或</button>
+              <button type="button" data-set="circle" aria-pressed="false">圆环</button>
+              <button type="button" data-set="moons" aria-pressed="false">双月</button>
+              <button type="button" data-set="spiral" aria-pressed="false">螺旋</button>
+              <button type="button" data-set="manual" aria-pressed="false">手动</button>
+            </div>
+          </div>
+
+          <div class="ctrl">
+            <div class="ctrl-top">
+              <label for="mlpLr">学习率</label>
+              <span class="ctrl-val" id="mlpLrVal">0.030</span>
+            </div>
+            <input type="range" id="mlpLr" min="1" max="60" value="26">
+          </div>
+
+          <div class="ctrl">
+            <div class="ctrl-top">
+              <label for="mlpWidth">隐藏层宽度</label>
+              <span class="ctrl-val" id="mlpWidthVal">8</span>
+            </div>
+            <input type="range" id="mlpWidth" min="2" max="16" value="8">
+          </div>
+
+          <div>
+            <h4>激活函数</h4>
+            <div class="seg" id="mlpAct" role="group" aria-label="选择激活函数">
+              <button type="button" data-act="tanh" aria-pressed="true">tanh</button>
+              <button type="button" data-act="relu" aria-pressed="false">ReLU</button>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="btn" id="mlpPlay">暂停</button>
+            <button type="button" class="btn" id="mlpReset">重置</button>
+          </div>
+
+          <dl class="readout">
+            <div class="readout-row"><dt>迭代</dt><dd id="mlpStep">0</dd></div>
+            <div class="readout-row"><dt>损失</dt><dd id="mlpLoss">—</dd></div>
+            <div class="readout-row"><dt>准确率</dt><dd id="mlpAcc">—</dd></div>
+          </dl>
+
+          <canvas class="spark" id="mlpSpark" aria-label="损失曲线"></canvas>
+        </aside>
+      </div>
+
+      <p class="note" style="margin-top:20px;max-width:72ch">
+        提示：按 <span class="kbd">空格</span> 暂停或继续，按 <span class="kbd">R</span> 重置参数。
+        换个宽度或学习率再试一次，有些设置就是学不会。
+      </p>
+    </div>
+  </section>
+
+  <!-- 解释 -->
+  <section class="section">
+    <div class="wrap cols">
+      <div class="col-6">
+        <p class="eyebrow reveal">看一眼</p>
+        <p class="pull reveal" style="--d:1">这条线是怎么来的</p>
+      </div>
+      <div class="col-6 prose" style="grid-column:7 / span 6">
+        <p class="reveal">
+          屏幕上那条分界线，没有人画过。它是一百零五个数字算出来的结果，而这些数字是从随机值开始，被误差一次次推着走过来的。
+        </p>
+        <p class="reveal" style="--d:1">
+          元胞自动机是这样，神经网络也是这样，区别只在于网络的规则会被数据改写。
+        </p>
+        <a class="link reveal" href="gallery.html" style="--d:2;margin-top:8px">下一间：十二幅生成的画 <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <hr class="rule">
+      <div class="next-row">
+        <a class="next-card" href="perceive.html">
+          <span class="mono">← 上一章 02</span>
+          <strong>观看</strong>
+        </a>
+        <a class="next-card next-card--r" href="gallery.html">
+          <span class="mono">下一章 04 →</span>
+          <strong>画廊</strong>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="index.html" aria-label="生长实验室 · 返回首页">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-cn">生长</span>
+        </a>
+        <p>一个关于「涌现」的互动专题：简单的规则，重复之后长出复杂的世界。所有画面都由代码实时生成。</p>
+      </div>
+      <div class="foot-nav">
+        <p class="foot-h">房间</p>
+        <div class="foot-list">
+          <a href="rules.html">01 · 规则</a>
+          <a href="perceive.html">02 · 观看</a>
+          <a href="learn.html">03 · 学习</a>
+          <a href="gallery.html">04 · 画廊</a>
+          <a href="studio.html">05 · 工作室</a>
+          <a href="about.html">06 · 关于</a>
+        </div>
+      </div>
+      <div class="foot-info">
+        <p class="foot-h">信息</p>
+        <p>2026 年 · 设计与编码：郑同学</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span class="mono">© 2026 生长实验室</span>
+      <span class="mono">Designed &amp; coded by hand</span>
+    </div>
+  </div>
+  <div class="foot-word" aria-hidden="true">生长</div>
+</footer>
+
+<script src="assets/js/core.js" defer></script>
+<script src="assets/js/mlp.js" defer></script>
+</body>
+</html>

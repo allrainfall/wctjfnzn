@@ -1,0 +1,7 @@
+# 本地笔记与截图，不进入版本库
+_notes/
+_shots/
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db

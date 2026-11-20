@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>规则 — 一条规则，长出一片森林 | 生长 GROWTH LAB</title>
+<meta name="description" content="从康威的生命游戏到沃尔夫勒姆的元胞自动机：256 条只有八个控制位的规则，如何演化出分形、混沌与计算。附可交互的元胞自动机实验。">
+<meta name="author" content="郑同学">
+<meta name="theme-color" content="#f2efe7">
+<meta property="og:type" content="article">
+<meta property="og:title" content="规则 — 一条规则，长出一片森林">
+<meta property="og:description" content="复杂，往往不需要复杂的原因。它只需要一条规则，和足够多的重复。">
+<meta property="og:image" content="assets/img/room-rules.webp">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" as="font" type="font/woff" href="assets/fonts/growth-serif.woff" crossorigin>
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/pages.css">
+<script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+</head>
+<body>
+
+<a class="skip" href="#main">跳到正文</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+
+<header class="site-head" id="siteHead">
+  <a class="brand" href="index.html" aria-label="生长实验室 · 返回首页">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-cn">生长</span>
+    <span class="brand-en">Growth Lab</span>
+  </a>
+  <nav class="nav" aria-label="主导航">
+    <a href="rules.html" aria-current="page">规则</a>
+    <a href="perceive.html">观看</a>
+    <a href="learn.html">学习</a>
+    <a href="gallery.html">画廊</a>
+    <a href="studio.html">工作室</a>
+    <a href="about.html">关于</a>
+  </nav>
+  <button class="menu-btn" id="menuBtn" aria-label="打开菜单" aria-expanded="false" aria-controls="menu">
+    <span></span><span></span>
+  </button>
+</header>
+
+<nav class="menu" id="menu" aria-label="站点导航" aria-hidden="true">
+  <a href="index.html"><span class="idx">00</span>首页</a>
+  <a href="rules.html" aria-current="page"><span class="idx">01</span>规则</a>
+  <a href="perceive.html"><span class="idx">02</span>观看</a>
+  <a href="learn.html"><span class="idx">03</span>学习</a>
+  <a href="gallery.html"><span class="idx">04</span>画廊</a>
+  <a href="studio.html"><span class="idx">05</span>工作室</a>
+  <a href="about.html"><span class="idx">06</span>关于</a>
+  <div class="menu-foot">
+    <span class="mono">生长 · Growth Lab</span>
+    <span class="mono">2026 / 互动专题</span>
+  </div>
+</nav>
+
+<main id="main">
+
+  <header class="page-head">
+    <div class="wrap">
+      <p class="eyebrow eyebrow--accent reveal">01 — 规则</p>
+      <h1 class="page-title reveal" style="--d:1">一条规则，<br>能长出什么</h1>
+      <div class="page-head-foot">
+        <p class="lede reveal" style="--d:2">
+          康威的生命游戏只有四条规则，却能演化出会走路的图案。这一页从它和另外两条规则讲起，看看复杂是怎么从简单里来的。
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <!-- 导语 -->
+  <section class="section">
+    <div class="wrap cols">
+      <div class="col-7 prose">
+        <p class="reveal">
+          1970 年，数学家约翰·康威在纸上画了一个方格子。每个格子只有两种状态：活着，或者死了。
+          下一代的生死，只看它周围八个格子里有几个邻居：活着的格子如果太孤单（少于两个邻居）或者太拥挤（多于三个），就会死；
+          死掉的格子如果恰好有三个邻居，就会活过来。
+        </p>
+        <p class="reveal" style="--d:1">
+          这四条规则里<strong>没有提到滑翔机，也没有提到时钟</strong>。但把它们放进一张 40×40 的网格里跑上几十代，滑翔机就出现了：五个格子组成一个小图案，沿着对角线一格一格地走下去。
+        </p>
+        <p class="reveal" style="--d:2">
+          后来人们发现，这个游戏足够表达任何计算，是图灵完备的。
+        </p>
+      </div>
+      <aside class="col-5">
+        <figure class="figure reveal" style="--d:1">
+          <img src="assets/img/room-rules.webp" alt="规则 90 演化的元胞自动机，层层收束成一个三角形分形" width="900" height="675">
+          <figcaption class="figcap">
+            <span>规则 90，从中心一格开始</span>
+            <span>SEED 1</span>
+          </figcaption>
+        </figure>
+        <p class="note" style="margin-top:18px">
+          每个格子只做一件事：看左右两边。左边和右边不一样，它就是黑的；一样，就是白的。
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 三个例子 -->
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow reveal">三个例子</p>
+        <h2 class="h2 reveal" style="--d:1">三条规则</h2>
+        <p class="sec-note reveal" style="--d:2">
+          1983 年，物理学家斯蒂芬·沃尔夫勒姆把这类规则穷举了一遍：
+          每个格子只看自己和左右两个邻居，一共 2³ = 8 种情况，每种情况有生或死两个选择，于是恰好是 2⁸ = 256 条规则。
+          他把它们编号为 0 到 255。
+        </p>
+      </div>
+
+      <div class="rules-three">
+        <article class="rule-card reveal" style="--d:0">
+          <span class="rule-num">RULE 90</span>
+          <h3>分形</h3>
+          <p>每个格子等于左右两个邻居的异或。重复下去，得到的是一层一层的谢尔宾斯基三角形：可以无限细分，局部与整体相似。</p>
+        </article>
+        <article class="rule-card reveal" style="--d:1">
+          <span class="rule-num">RULE 30</span>
+          <h3>混沌</h3>
+          <p>沃尔夫勒姆最喜欢的规则。它的输出通过了各种随机性检验，甚至曾被用作随机数发生器，尽管它本身完全确定，没有用到任何随机数。</p>
+        </article>
+        <article class="rule-card reveal" style="--d:2">
+          <span class="rule-num">RULE 110</span>
+          <h3>计算</h3>
+          <p>2004 年，马修·库克证明了规则 110 是图灵完备的：只要有足够长的纸带，它能计算任何可计算的东西。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 实验台 -->
+  <section class="section" id="lab">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow reveal">实验 01</p>
+        <h2 class="h2 reveal" style="--d:1">转动规则号</h2>
+        <p class="sec-note reveal" style="--d:2">
+          纸带每往下走一行，就是一代。八个开关决定整片图案的样子。把规则号从 90 拖到 30，图案会从整齐变成杂乱。
+        </p>
+      </div>
+
+      <div class="lab-frame reveal">
+        <div class="lab-stage">
+          <canvas id="caCanvas" aria-label="一维元胞自动机的演化过程，横轴是空间，纵轴是时间"></canvas>
+          <div class="lab-badge">
+            <span class="tag">元胞自动机</span>
+            <span class="tag tag--live" id="caRuleTag">RULE 090</span>
+          </div>
+          <p class="lab-hint">点击画布：换一个初始状态</p>
+        </div>
+
+        <aside class="lab-panel">
+          <div>
+            <h4>预设规则</h4>
+            <div class="seg seg--grid" id="caRules" role="group" aria-label="预设规则">
+              <button type="button" data-rule="90" aria-pressed="true">90</button>
+              <button type="button" data-rule="30" aria-pressed="false">30</button>
+              <button type="button" data-rule="110" aria-pressed="false">110</button>
+              <button type="button" data-rule="150" aria-pressed="false">150</button>
+              <button type="button" data-rule="22" aria-pressed="false">22</button>
+              <button type="button" data-rule="60" aria-pressed="false">60</button>
+              <button type="button" data-rule="184" aria-pressed="false">184</button>
+            </div>
+          </div>
+
+          <div class="ctrl">
+            <div class="ctrl-top">
+              <label for="caRule">规则号</label>
+              <span class="ctrl-val" id="caRuleVal">90</span>
+            </div>
+            <input type="range" id="caRule" min="0" max="255" value="90">
+          </div>
+
+          <div>
+            <h4>八个开关</h4>
+            <div class="bits" id="caBits" aria-hidden="true"></div>
+          </div>
+
+          <div class="ctrl">
+            <div class="ctrl-top">
+              <label for="caSpeed">速度</label>
+              <span class="ctrl-val" id="caSpeedVal">4</span>
+            </div>
+            <input type="range" id="caSpeed" min="1" max="10" value="4">
+          </div>
+
+          <dl class="readout">
+            <div class="readout-row"><dt>代数</dt><dd id="caGen">0</dd></div>
+            <div class="readout-row"><dt>当前行活格</dt><dd id="caDensity">1</dd></div>
+          </dl>
+
+          <div class="btn-row">
+            <button type="button" class="btn" id="caReset">重播</button>
+          </div>
+        </aside>
+      </div>
+
+      <p class="note" style="margin-top:20px;max-width:70ch">
+        可以试试 30 号规则：它不会进入循环，看上去也不像有规律。
+      </p>
+    </div>
+  </section>
+
+  <!-- 论述 -->
+  <section class="section">
+    <div class="wrap cols">
+      <div class="col-6">
+        <p class="eyebrow reveal">由此出发</p>
+        <p class="pull reveal" style="--d:1">没有捷径</p>
+      </div>
+      <div class="col-5 prose" style="grid-column:8 / span 5">
+        <p class="reveal">
+          在 30 号规则里，想知道第 1000 行第 500 个格子的颜色，没有捷径可以走，只能从头一格一格算过去。沃尔夫勒姆把这叫作计算不可约：有些过程的答案，没有办法被压缩成一句更短的话。
+        </p>
+        <p class="reveal" style="--d:1">
+          这一点对理解智能很重要。一个足够复杂的系统，很难用公式预言，只能让它跑起来，看它长成什么样。神经网络也是这样。
+        </p>
+        <a class="link reveal" href="perceive.html" style="--d:2;margin-top:8px">下一间：机器看见的数字 <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <hr class="rule">
+      <div class="next-row">
+        <a class="next-card" href="index.html">
+          <span class="mono">← 返回</span>
+          <strong>首页</strong>
+        </a>
+        <a class="next-card next-card--r" href="perceive.html">
+          <span class="mono">下一章 02 →</span>
+          <strong>观看</strong>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="index.html" aria-label="生长实验室 · 返回首页">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-cn">生长</span>
+        </a>
+        <p>一个关于「涌现」的互动专题：简单的规则，重复之后长出复杂的世界。所有画面都由代码实时生成。</p>
+      </div>
+      <div class="foot-nav">
+        <p class="foot-h">房间</p>
+        <div class="foot-list">
+          <a href="rules.html">01 · 规则</a>
+          <a href="perceive.html">02 · 观看</a>
+          <a href="learn.html">03 · 学习</a>
+          <a href="gallery.html">04 · 画廊</a>
+          <a href="studio.html">05 · 工作室</a>
+          <a href="about.html">06 · 关于</a>
+        </div>
+      </div>
+      <div class="foot-info">
+        <p class="foot-h">信息</p>
+        <p>2026 年 · 设计与编码：郑同学</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span class="mono">© 2026 生长实验室</span>
+      <span class="mono">Designed &amp; coded by hand</span>
+    </div>
+  </div>
+  <div class="foot-word" aria-hidden="true">生长</div>
+</footer>
+
+<script src="assets/js/core.js" defer></script>
+<script src="assets/js/ca.js" defer></script>
+</body>
+</html>

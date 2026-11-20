@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>生长 GROWTH LAB — 关于「涌现」的六个互动实验</title>
+<meta name="description" content="涌现：简单的东西重复之后会变复杂。六个互动实验分别演示元胞自动机、卷积、神经网络与生成艺术，全部在浏览器里现场计算。">
+<meta name="author" content="郑同学">
+<meta name="theme-color" content="#f2efe7">
+<meta property="og:type" content="website">
+<meta property="og:title" content="生长 GROWTH LAB — 关于「涌现」的六个互动实验">
+<meta property="og:description" content="一条规则，重复足够多次，会长出规则里根本没有的东西。">
+<meta property="og:image" content="assets/img/share.png">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" as="font" type="font/woff" href="assets/fonts/growth-serif.woff" crossorigin>
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/pages.css">
+<script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+</head>
+<body>
+
+<a class="skip" href="#main">跳到正文</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+
+<header class="site-head" id="siteHead">
+  <a class="brand" href="index.html" aria-label="生长实验室 · 返回首页">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-cn">生长</span>
+    <span class="brand-en">Growth Lab</span>
+  </a>
+  <nav class="nav" aria-label="主导航">
+    <a href="rules.html">规则</a>
+    <a href="perceive.html">观看</a>
+    <a href="learn.html">学习</a>
+    <a href="gallery.html">画廊</a>
+    <a href="studio.html">工作室</a>
+    <a href="about.html">关于</a>
+  </nav>
+  <button class="menu-btn" id="menuBtn" aria-label="打开菜单" aria-expanded="false" aria-controls="menu">
+    <span></span><span></span>
+  </button>
+</header>
+
+<nav class="menu" id="menu" aria-label="站点导航" aria-hidden="true">
+  <a href="index.html" aria-current="page"><span class="idx">00</span>首页</a>
+  <a href="rules.html"><span class="idx">01</span>规则</a>
+  <a href="perceive.html"><span class="idx">02</span>观看</a>
+  <a href="learn.html"><span class="idx">03</span>学习</a>
+  <a href="gallery.html"><span class="idx">04</span>画廊</a>
+  <a href="studio.html"><span class="idx">05</span>工作室</a>
+  <a href="about.html"><span class="idx">06</span>关于</a>
+  <div class="menu-foot">
+    <span class="mono">生长 · Growth Lab</span>
+    <span class="mono">2026 / 互动专题</span>
+  </div>
+</nav>
+
+<main id="main">
+
+  <!-- ============ 封面 ============ -->
+  <section class="hero">
+    <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
+    <div class="hero-veil" aria-hidden="true"></div>
+
+    <div class="wrap hero-inner">
+      <p class="eyebrow eyebrow--accent reveal">关于「涌现」的六个实验</p>
+
+      <h1 class="display hero-title">
+        <span class="mask-line" style="--d:0"><span>让规则</span></span>
+        <span class="mask-line" style="--d:1"><span>长出形状<span class="hero-dot">。</span></span></span>
+      </h1>
+
+      <p class="lede hero-lede reveal" style="--d:3">
+        一条很短的规则，重复足够多次，会长出规则里本来没有的东西。
+        雪花的六角、鸟群的转向、这张图里的每一根枝条，都是这样来的。
+        人们把这种现象叫作涌现。下面六个房间，从不同的角度演示它。
+      </p>
+
+      <div class="hero-cta reveal" style="--d:4">
+        <a class="btn btn--fill" href="#premise">从主线开始 <span class="arw" aria-hidden="true">↓</span></a>
+        <a class="btn" href="gallery.html">看画 <span class="arw" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+
+    <div class="scroll-cue" aria-hidden="true">
+      <span>SCROLL</span>
+      <i></i>
+    </div>
+  </section>
+
+  <!-- ============ 跑马灯 ============ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-item">规则 <i></i> 涌现 <i></i> 形状 <i></i> 误差 <i></i> 生长 <i></i> 重复 <i></i></span>
+      <span class="marquee-item">规则 <i></i> 涌现 <i></i> 形状 <i></i> 误差 <i></i> 生长 <i></i> 重复 <i></i></span>
+    </div>
+  </div>
+
+  <!-- ============ 主线 ============ -->
+  <section class="premise" id="premise">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow reveal">主题 · 涌现</p>
+        <h2 class="h2 reveal" style="--d:1">什么是涌现</h2>
+        <p class="sec-note reveal" style="--d:2">
+          涌现指的是这样一种现象：整体的行为，没有办法从任何一个部分里读出来。
+          雪花不是被设计成六角的，鸟群也没有谁在指挥，但它们都有稳定的形状。
+        </p>
+      </div>
+
+      <ol class="steps">
+        <li class="step reveal" style="--d:0">
+          <span class="step-num">01</span>
+          <h3>一条规则</h3>
+          <p>每个格子只需要看看左右两个邻居。写成文字不到一行，里面没有任何关于森林或三角形的提示。</p>
+        </li>
+        <li class="step reveal" style="--d:1">
+          <span class="step-num">02</span>
+          <h3>重复很多次</h3>
+          <p>同一件事被反复执行。没有全局的设计，也没有草稿，每一代只根据上一代算出来。</p>
+        </li>
+        <li class="step reveal" style="--d:2">
+          <span class="step-num">03</span>
+          <h3>形状自己出现</h3>
+          <p>滑翔机、分形、决策边界，这些在规则里都没有写。它们是在反复执行的过程中出现的。</p>
+        </li>
+      </ol>
+
+      <p class="premise-note reveal">
+        前三个房间各配了一个可以动手的实验，后两个房间是这些规则长出来的结果。
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 六个房间 ============ -->
+  <section class="rooms-section" id="rooms">
+    <div class="wrap">
+      <div class="sec-head">
+        
+        <h2 class="h2 reveal" style="--d:1">六个房间</h2>
+        <p class="sec-note reveal" style="--d:2">
+          从一条规则开始，到一台会犯错的机器，再到十二幅没有笔触的画。每一页都可以动手试一下。
+        </p>
+      </div>
+
+      <div class="rooms">
+
+        <a class="room reveal" href="rules.html" style="--d:0">
+          <div class="room-media">
+            <img src="assets/img/room-rules.webp" alt="元胞自动机演化出的三角形分形图案" width="900" height="675" loading="lazy">
+          </div>
+          <div class="room-body">
+            <span class="room-num">01</span>
+            <h3>一条规则，<br>能长出什么</h3>
+            <p>康威的生命游戏只有四条规则，却能演化出滑翔机和时钟。</p>
+            <span class="room-go"><span>进入 · 元胞自动机</span><span class="arw" aria-hidden="true">→</span></span>
+          </div>
+        </a>
+
+        <a class="room reveal" href="perceive.html" style="--d:1">
+          <div class="room-media">
+            <img src="assets/img/room-perceive.webp" alt="一张图片经过边缘检测卷积核后的特征图" width="900" height="675" loading="lazy">
+          </div>
+          <div class="room-body">
+            <span class="room-num">02</span>
+            <h3>机器看见的，<br>是数字</h3>
+            <p>一张图不过是 0 到 255 的矩阵。转动一个 3×3 的卷积核，看看边缘是怎么算出来的。</p>
+            <span class="room-go"><span>进入 · 卷积实验</span><span class="arw" aria-hidden="true">→</span></span>
+          </div>
+        </a>
+
+        <a class="room reveal" href="learn.html" style="--d:2">
+          <div class="room-media">
+            <img src="assets/img/room-learn.webp" alt="神经网络在二维平面上学习出的决策边界" width="900" height="675" loading="lazy">
+          </div>
+          <div class="room-body">
+            <span class="room-num">03</span>
+            <h3>从随机，<br>到秩序</h3>
+            <p>一个真正的神经网络在你打开的页面里训练，误差一点点变小。</p>
+            <span class="room-go"><span>进入 · 训练场</span><span class="arw" aria-hidden="true">→</span></span>
+          </div>
+        </a>
+
+        <a class="room reveal" href="gallery.html" style="--d:0">
+          <div class="room-media">
+            <img src="assets/img/room-gallery.webp" alt="程序生成的流场线条画" width="900" height="675" loading="lazy">
+          </div>
+          <div class="room-body">
+            <span class="room-num">04</span>
+            <h3>十二幅生成的画</h3>
+            <p>流场、等高线、泰森多边形、半调网点。每一幅都由一段固定的代码生成。</p>
+            <span class="room-go"><span>进入 · 画廊</span><span class="arw" aria-hidden="true">→</span></span>
+          </div>
+        </a>
+
+        <a class="room reveal" href="studio.html" style="--d:1">
+          <div class="room-media">
+            <img src="assets/img/room-studio.webp" alt="海报生成器生成的抽象构成海报" width="900" height="675" loading="lazy">
+          </div>
+          <div class="room-body">
+            <span class="room-num">05</span>
+            <h3>做一张<br>自己的海报</h3>
+            <p>选算法、调密度、换配色，生成一张可以下载的海报。</p>
+            <span class="room-go"><span>进入 · 海报生成器</span><span class="arw" aria-hidden="true">→</span></span>
+          </div>
+        </a>
+
+        <a class="room reveal" href="about.html" style="--d:2">
+          <div class="room-media">
+            <img src="assets/img/room-about.webp" alt="手绘风格的网站结构草图" width="900" height="675" loading="lazy">
+          </div>
+          <div class="room-body">
+            <span class="room-num">06</span>
+            <h3>关于这个网站</h3>
+            <p>用了什么、没用什么，以及几处取巧的地方。</p>
+            <span class="room-go"><span>进入 · 关于</span><span class="arw" aria-hidden="true">→</span></span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 收尾 ============ -->
+  <section class="closing-section">
+    <div class="wrap">
+      <p class="closing reveal">
+        网站里的图画没有一张来自图库，也没有一张是手绘的。它们都由代码生成，
+        各自遵循一条很短的规则，重复到足够多次，然后有了形状。
+      </p>
+      <a class="link reveal" href="rules.html" style="--d:1">从一条规则开始 <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="index.html" aria-label="生长实验室 · 返回首页">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-cn">生长</span>
+        </a>
+        <p>一个关于「涌现」的互动专题：简单的规则，重复之后长出复杂的世界。所有画面都由代码实时生成。</p>
+      </div>
+      <div class="foot-nav">
+        <p class="foot-h">房间</p>
+        <div class="foot-list">
+          <a href="rules.html">01 · 规则</a>
+          <a href="perceive.html">02 · 观看</a>
+          <a href="learn.html">03 · 学习</a>
+          <a href="gallery.html">04 · 画廊</a>
+          <a href="studio.html">05 · 工作室</a>
+          <a href="about.html">06 · 关于</a>
+        </div>
+      </div>
+      <div class="foot-info">
+        <p class="foot-h">信息</p>
+        <p>2026 年 · 设计与编码：郑同学</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span class="mono">© 2026 生长实验室</span>
+      <span class="mono">Designed &amp; coded by hand</span>
+    </div>
+  </div>
+  <div class="foot-word" aria-hidden="true">生长</div>
+</footer>
+
+<script src="assets/js/core.js" defer></script>
+<script src="assets/js/hero.js" defer></script>
+</body>
+</html>

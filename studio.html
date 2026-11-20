@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>工作室 — 你定参数，机器作画 | 生长 GROWTH LAB</title>
+<meta name="description" content="选一种算法、调一个密度、换一套配色，在线生成一张属于自己的生成艺术海报，并导出 PNG。">
+<meta name="author" content="郑同学">
+<meta name="theme-color" content="#f2efe7">
+<meta property="og:type" content="article">
+<meta property="og:title" content="工作室 — 你定参数，机器作画">
+<meta property="og:description" content="三分钟，做一张属于自己的海报。">
+<meta property="og:image" content="assets/img/room-studio.webp">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" as="font" type="font/woff" href="assets/fonts/growth-serif.woff" crossorigin>
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/pages.css">
+<script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+</head>
+<body>
+
+<a class="skip" href="#main">跳到正文</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+
+<header class="site-head" id="siteHead">
+  <a class="brand" href="index.html" aria-label="生长实验室 · 返回首页">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-cn">生长</span>
+    <span class="brand-en">Growth Lab</span>
+  </a>
+  <nav class="nav" aria-label="主导航">
+    <a href="rules.html">规则</a>
+    <a href="perceive.html">观看</a>
+    <a href="learn.html">学习</a>
+    <a href="gallery.html">画廊</a>
+    <a href="studio.html" aria-current="page">工作室</a>
+    <a href="about.html">关于</a>
+  </nav>
+  <button class="menu-btn" id="menuBtn" aria-label="打开菜单" aria-expanded="false" aria-controls="menu">
+    <span></span><span></span>
+  </button>
+</header>
+
+<nav class="menu" id="menu" aria-label="站点导航" aria-hidden="true">
+  <a href="index.html"><span class="idx">00</span>首页</a>
+  <a href="rules.html"><span class="idx">01</span>规则</a>
+  <a href="perceive.html"><span class="idx">02</span>观看</a>
+  <a href="learn.html"><span class="idx">03</span>学习</a>
+  <a href="gallery.html"><span class="idx">04</span>画廊</a>
+  <a href="studio.html" aria-current="page"><span class="idx">05</span>工作室</a>
+  <a href="about.html"><span class="idx">06</span>关于</a>
+  <div class="menu-foot">
+    <span class="mono">生长 · Growth Lab</span>
+    <span class="mono">2026 / 互动专题</span>
+  </div>
+</nav>
+
+<main id="main">
+
+  <header class="page-head">
+    <div class="wrap">
+      <p class="eyebrow eyebrow--accent reveal">05 — 工作室</p>
+      <h1 class="page-title reveal" style="--d:1">做一张自己的海报</h1>
+      <div class="page-head-foot">
+        <p class="lede reveal" style="--d:2">
+          左边几个参数，右边一张海报。换掉标题或者种子，结果会完全不同。
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="studio-grid">
+
+        <div class="studio-panel">
+
+          <div>
+            <h4 class="panel-h">算法</h4>
+            <div class="seg" id="stAlgo" role="group" aria-label="选择算法">
+              <button type="button" data-algo="flow" aria-pressed="true">流场</button>
+              <button type="button" data-algo="dots" aria-pressed="false">网点</button>
+              <button type="button" data-algo="wave" aria-pressed="false">波纹</button>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="panel-h">配色</h4>
+            <div class="seg" id="stPalette" role="group" aria-label="选择配色">
+              <button type="button" data-pal="paper" aria-pressed="true">纸墨</button>
+              <button type="button" data-pal="night" aria-pressed="false">夜色</button>
+              <button type="button" data-pal="clay" aria-pressed="false">赤陶</button>
+            </div>
+          </div>
+
+          <div class="ctrl">
+            <div class="ctrl-top">
+              <label for="stDensity">密度</label>
+              <span class="ctrl-val" id="stDensityVal">0.55</span>
+            </div>
+            <input type="range" id="stDensity" min="10" max="100" value="55">
+          </div>
+
+          <div class="ctrl">
+            <div class="ctrl-top">
+              <label for="stTitle">标题</label>
+              <span class="ctrl-val">最多 6 字</span>
+            </div>
+            <input type="text" class="text-input" id="stTitle" value="生长" maxlength="6" autocomplete="off">
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="btn" id="stSeed">换一个种子</button>
+            <button type="button" class="btn btn--fill" id="stSave">下载 PNG</button>
+          </div>
+
+          <dl class="readout">
+            <div class="readout-row"><dt>种子</dt><dd id="stSeedVal">—</dd></div>
+            <div class="readout-row"><dt>算法</dt><dd id="stAlgoVal">流场</dd></div>
+            <div class="readout-row"><dt>状态</dt><dd id="stStatus">就绪</dd></div>
+          </dl>
+
+          <p class="note">
+            同样的参数和种子会得到同一张海报，因此它可以被复现，也可以被分享。
+          </p>
+        </div>
+
+        <div class="studio-preview">
+          <div class="studio-canvas-wrap">
+            <canvas id="stCanvas" aria-label="生成艺术海报预览"></canvas>
+          </div>
+          <p class="note">预览即最终效果。下载的是 1200 × 1600 的 PNG。</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow reveal">三种算法</p>
+        <h2 class="h2 reveal" style="--d:1">三种算法</h2>
+        <p class="sec-note reveal" style="--d:2">
+          这三种算法都不知道什么是好看，它们只负责按规则生成。参数由你调整，留哪一张也由你决定。
+        </p>
+      </div>
+
+      <div class="triple">
+        <article class="triple-item reveal" style="--d:0">
+          <span class="triple-num">A</span>
+          <h3>流场</h3>
+          <p>每个点都顺着周围的角度场往前走，走够步数就停。线条互相绕开，看起来像风或者毛发。</p>
+        </article>
+        <article class="triple-item reveal" style="--d:1">
+          <span class="triple-num">B</span>
+          <h3>网点</h3>
+          <p>先算一张明暗图，再把每个格子换成一个直径和明暗成正比的圆点。只有黑白，却看得出灰。</p>
+        </article>
+        <article class="triple-item reveal" style="--d:2">
+          <span class="triple-num">C</span>
+          <h3>波纹</h3>
+          <p>一叠平行的横线，被同一片噪声上下推移。位移的幅度从两边到中间慢慢变大，就成了起伏的地层。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <hr class="rule">
+      <div class="next-row">
+        <a class="next-card" href="gallery.html">
+          <span class="mono">← 上一章 04</span>
+          <strong>画廊</strong>
+        </a>
+        <a class="next-card next-card--r" href="about.html">
+          <span class="mono">下一章 06 →</span>
+          <strong>关于</strong>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="index.html" aria-label="生长实验室 · 返回首页">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-cn">生长</span>
+        </a>
+        <p>一个关于「涌现」的互动专题：简单的规则，重复之后长出复杂的世界。所有画面都由代码实时生成。</p>
+      </div>
+      <div class="foot-nav">
+        <p class="foot-h">房间</p>
+        <div class="foot-list">
+          <a href="rules.html">01 · 规则</a>
+          <a href="perceive.html">02 · 观看</a>
+          <a href="learn.html">03 · 学习</a>
+          <a href="gallery.html">04 · 画廊</a>
+          <a href="studio.html">05 · 工作室</a>
+          <a href="about.html">06 · 关于</a>
+        </div>
+      </div>
+      <div class="foot-info">
+        <p class="foot-h">信息</p>
+        <p>2026 年 · 设计与编码：郑同学</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span class="mono">© 2026 生长实验室</span>
+      <span class="mono">Designed &amp; coded by hand</span>
+    </div>
+  </div>
+  <div class="foot-word" aria-hidden="true">生长</div>
+</footer>
+
+<script src="assets/js/core.js" defer></script>
+<script src="assets/js/studio.js" defer></script>
+</body>
+</html>

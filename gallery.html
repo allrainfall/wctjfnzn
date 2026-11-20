@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>画廊 — 十二幅画，没有一笔是人画的 | 生长 GROWTH LAB</title>
+<meta name="description" content="十二幅由算法生成的作品：流场、等高线、泰森多边形、半调网点、摩尔纹、递归细分、粒子云、波形位移、圆堆积、递归分枝、短线织纹、同心扰动。">
+<meta name="author" content="郑同学">
+<meta name="theme-color" content="#0d0d0c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="画廊 — 十二幅画，没有一笔是人画的">
+<meta property="og:description" content="算法写下秩序，人只负责挑选。">
+<meta property="og:image" content="assets/img/work/01-wind.webp">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" as="font" type="font/woff" href="assets/fonts/growth-serif.woff" crossorigin>
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/pages.css">
+<script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+</head>
+<body class="theme-dark">
+
+<a class="skip" href="#main">跳到正文</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+
+<header class="site-head" id="siteHead">
+  <a class="brand" href="index.html" aria-label="生长实验室 · 返回首页">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-cn">生长</span>
+    <span class="brand-en">Growth Lab</span>
+  </a>
+  <nav class="nav" aria-label="主导航">
+    <a href="rules.html">规则</a>
+    <a href="perceive.html">观看</a>
+    <a href="learn.html">学习</a>
+    <a href="gallery.html" aria-current="page">画廊</a>
+    <a href="studio.html">工作室</a>
+    <a href="about.html">关于</a>
+  </nav>
+  <button class="menu-btn" id="menuBtn" aria-label="打开菜单" aria-expanded="false" aria-controls="menu">
+    <span></span><span></span>
+  </button>
+</header>
+
+<nav class="menu" id="menu" aria-label="站点导航" aria-hidden="true">
+  <a href="index.html"><span class="idx">00</span>首页</a>
+  <a href="rules.html"><span class="idx">01</span>规则</a>
+  <a href="perceive.html"><span class="idx">02</span>观看</a>
+  <a href="learn.html"><span class="idx">03</span>学习</a>
+  <a href="gallery.html" aria-current="page"><span class="idx">04</span>画廊</a>
+  <a href="studio.html"><span class="idx">05</span>工作室</a>
+  <a href="about.html"><span class="idx">06</span>关于</a>
+  <div class="menu-foot">
+    <span class="mono">生长 · Growth Lab</span>
+    <span class="mono">2026 / 互动专题</span>
+  </div>
+</nav>
+
+<main id="main">
+
+  <header class="page-head">
+    <div class="wrap">
+      <p class="eyebrow eyebrow--accent reveal">04 — 画廊</p>
+      <h1 class="page-title reveal" style="--d:1">十二幅生成的画</h1>
+      <div class="page-head-foot">
+        <p class="lede reveal" style="--d:2">
+          下面这些画全部由一个 Python 脚本生成。给每一种算法它需要的规则，再给一个固定的随机种子，然后从若干结果里挑出一幅。
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="gal" id="gal">
+
+        <button type="button" class="gal-item reveal" style="--d:0"
+          data-full="assets/img/work/01-wind.webp" data-title="风场" data-algo="流场线 · Flow Field" data-seed="1207"
+          data-desc="一万五千个粒子在同一张角度场里漂流，每一个只负责决定下一步往哪走。走够两百三十步就停下，留下一条线。">
+          <span class="gal-media">
+            <img src="assets/img/work/01-wind.webp" alt="风场：大量顺着噪声流场飘动的细线" width="1200" height="1500" loading="lazy">
+            <span class="gal-veil"><span>点击放大</span></span>
+          </span>
+          <span class="gal-title">风场</span>
+          <span class="gal-algo">Flow Field · 1207</span>
+        </button>
+
+        <button type="button" class="gal-item reveal" style="--d:1"
+          data-full="assets/img/work/02-contour.webp" data-title="等高线" data-algo="噪声等高线 · Contour" data-seed="3301"
+          data-desc="把一张平滑的噪声当作地形来切。每一条线代表同一个高度，一共三十层，其中一层用了朱砂色。">
+          <span class="gal-media">
+            <img src="assets/img/work/02-contour.webp" alt="等高线：一层层弯曲的闭合曲线，其中一条是朱砂色" width="1200" height="1500" loading="lazy">
+            <span class="gal-veil"><span>点击放大</span></span>
+          </span>
+          <span class="gal-title">等高线</span>
+          <span class="gal-algo">Contour · 3301</span>
+        </button>
+
+        <button type="button" class="gal-item reveal" style="--d:2"
+          data-full="assets/img/work/03-territory.webp" data-title="领地" data-algo="泰森多边形 · Voronoi" data-seed="881"
+          data-desc="每个点占有离它最近的那片土地。七十八个点，分出七十八块领地。">
+          <span class="gal-media">
+            <img src="assets/img/work/03-territory.webp" alt="泰森多边形：由不规则多边形拼成的色块" width="1200" height="1500" loading="lazy">
+            <span class="gal-veil"><span>点击放大</span></span>
+          </span>
+          <span class="gal-title">领地</span>
+          <span class="gal-algo">Voronoi · 881</span>
+        </button>
+
+        <button type="button" class="gal-item reveal" style="--d:0"
+          data-full="assets/img/work/04-density.webp" data-title="浓度" data-algo="半调网点 · Halftone" data-seed="451"
+          data-desc="只有黑点，没有灰。点的直径决定明暗，底部那条朱砂色带是刻意留下的。">
+          <span class="gal-media">
+            <img src="assets/img/work/04-density.webp" alt="半调网点：由大小不同的圆点组成的明暗渐变" width="1200" height="1500" loading="lazy">
+            <span class="gal-veil"><span>点击放大</span></span>
+          </span>
+          <span class="gal-title">浓度</span>
+          <span class="gal-algo">Halftone · 451</span>
+        </button>
+
+        <button type="button" class="gal-item reveal" style="--d:1"
+          data-full="assets/img/work/05-interference.webp" data-title="干涉" data-algo="摩尔纹 · Moiré" data-seed="1902"
+          data-desc="三组几乎平行的线，以极小的角度差叠在一起。看到的网是它们互相干涉的结果，没有一条线是弯的。">
+          <span class="gal-media">
+            <img src="assets/img/work/05-interference.webp" alt="摩尔纹：三组细线交叠出的编织状图案" width="1200" height="1500" loading="lazy">
+            <span class="gal-veil"><span>点击放大</span></span>
+          </span>
+          <span class="gal-title">干涉</span>
+          <span class="gal-algo">Moiré · 1902</span>
+        </button>
+
+        <button type="button" class="gal-item reveal" style="--d:2"
+          data-full="assets/img/work/06-wall.webp" data-title="墙" data-algo="递归细分 · Subdivision" data-seed="77"
+          data-desc="一条线把矩形切成两半，两半再各自被切开，直到切不动为止。七次之后，它变成了一堵墙。">
+          <span class="gal-media">
+            <img src="assets/img/work/06-wall.webp" alt="递归细分：大小不一的矩形色块拼成一面墙" width="1200" height="1500" loading="lazy">
+            <span class="gal-veil"><span>点击放大</span></span>
+          </span>
+          <span class="gal-title">墙</span>
+          <span class="gal-algo">Subdivision · 77</span>
+        </button>
+
+        <button type="button" class="gal-item reveal" style="--d:0"
+          data-full="assets/img/work/07-dust.webp" data-title="尘埃" data-algo="粒子云 · Dust" data-seed="2026"
+          data-desc="七团被压扁的高斯分布，几万次随机落点，然后交给一张从蓝到橙的调色表。">
+          <span class="gal-media">
+            <img src="assets/img/work/07-dust.webp" alt="尘埃：深色背景上一团橙色的粒子星云" width="1200" height="1500" loading="lazy">
+            <span class="gal-veil"><span>点击放大</span></span>
+          </span>
+          <span class="gal-title">尘埃</span>
+          <span class="gal-algo">Dust · 2026</span>
+        </button>
+
+        <button type="button" class="gal-item reveal" style="--d:1"
+          data-full="assets/img/work/08-strata.webp" data-title="地层" data-algo="波形位移 · Strata" data-seed="613"
+          data-desc="一百五十条水平线，各自被同一片噪声推了一下，剖面看上去像地质图。">
+          <span class="gal-media">
+            <img src="assets/img/work/08-strata.webp" alt="地层：大量水平线被同一片噪声上下推移" width="1200" height="1500" loading="lazy">
+            <span class="gal-veil"><span>点击放大</span></span>
+          </span>
+          <span class="gal-title">地层</span>
+          <span class="gal-algo">Strata · 613</span>
+        </button>
+
+        <button type="button" class="gal-item reveal" style="--d:2"
+          data-full="assets/img/work/09-bubbles.webp" data-title="气泡" data-algo="圆堆积 · Circle Packing" data-seed="1440"
+          data-desc="随机扔下一千个圆，放不下就重来，最后没有一个圆互相重叠。">
+          <span class="gal-media">
+            <img src="assets/img/work/09-bubbles.webp" alt="气泡：大小不一的空心圆互不重叠地铺满画面" width="1200" height="1500" loading="lazy">
+            <span class="gal-veil"><span>点击放大</span></span>
+          </span>
+          <span class="gal-title">气泡</span>
+          <span class="gal-algo">Circle Packing · 1440</span>
+        </button>
+
+        <button type="button" class="gal-item reveal" style="--d:0"
+          data-full="assets/img/work/10-branch.webp" data-title="枝" data-algo="递归分枝 · Branching" data-seed="1900"
+          data-desc="每一次分叉都把角度随机偏一点，把宽度乘以零点六六。九层之后，它看上去像一棵树。">
+          <span class="gal-media">
+            <img src="assets/img/work/10-branch.webp" alt="枝：从底部向上递归分叉的树状结构，末端有朱砂色小点" width="1200" height="1500" loading="lazy">
+            <span class="gal-veil"><span>点击放大</span></span>
+          </span>
+          <span class="gal-title">枝</span>
+          <span class="gal-algo">Branching · 1900</span>
+        </button>
+
+        <button type="button" class="gal-item reveal" style="--d:1"
+          data-full="assets/img/work/11-weave.webp" data-title="经纬" data-algo="短线织纹 · Weave" data-seed="355"
+          data-desc="把几万根极短的竖线按噪声的密度铺下去。远看是一块布，近看全是短笔触。">
+          <span class="gal-media">
+            <img src="assets/img/work/11-weave.webp" alt="经纬：密集的细短竖线组成的织物纹理" width="1200" height="1500" loading="lazy">
+            <span class="gal-veil"><span>点击放大</span></span>
+          </span>
+          <span class="gal-title">经纬</span>
+          <span class="gal-algo">Weave · 355</span>
+        </button>
+
+        <button type="button" class="gal-item reveal" style="--d:2"
+          data-full="assets/img/work/12-rings.webp" data-title="年轮" data-algo="同心扰动 · Growth Ring" data-seed="720"
+          data-desc="一百三十二个同心圆，每个圆的半径都被同一片噪声轻轻推歪，像年轮。">
+          <span class="gal-media">
+            <img src="assets/img/work/12-rings.webp" alt="年轮：深色背景上一圈圈被扰动的同心圆" width="1200" height="1500" loading="lazy">
+            <span class="gal-veil"><span>点击放大</span></span>
+          </span>
+          <span class="gal-title">年轮</span>
+          <span class="gal-algo">Growth Ring · 720</span>
+        </button>
+
+      </div>
+
+      <div class="gal-foot">
+        <p class="note">
+          所有作品由 <code>tools/gen_art.py</code> 生成。同一段代码和同一个种子，一定会得到同一幅画。点开任意一幅可以看到它用的算法和种子。
+        </p>
+        <a class="link link--accent" href="studio.html">试着自己生成一幅 <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <hr class="rule">
+      <div class="next-row">
+        <a class="next-card" href="learn.html">
+          <span class="mono">← 上一章 03</span>
+          <strong>学习</strong>
+        </a>
+        <a class="next-card next-card--r" href="studio.html">
+          <span class="mono">下一章 05 →</span>
+          <strong>工作室</strong>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 灯箱 -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="作品详情" aria-hidden="true">
+  <button type="button" class="lb-close" id="lbClose" aria-label="关闭">✕</button>
+  <div class="lightbox-stage">
+    <img id="lbImg" src="assets/img/work/01-wind.webp" alt="" width="1200" height="1500">
+  </div>
+  <div class="lightbox-side">
+    <p class="mono" id="lbIdx">01 / 12</p>
+    <h3 id="lbTitle">风场</h3>
+    <p id="lbDesc"></p>
+    <dl class="lb-facts">
+      <div><dt>算法</dt><dd id="lbAlgo">—</dd></div>
+      <div><dt>随机种子</dt><dd id="lbSeed">—</dd></div>
+      <div><dt>尺寸</dt><dd>1200 × 1500</dd></div>
+    </dl>
+    <div class="lb-nav">
+      <button type="button" id="lbPrev" aria-label="上一幅">←</button>
+      <button type="button" id="lbNext" aria-label="下一幅">→</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="index.html" aria-label="生长实验室 · 返回首页">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-cn">生长</span>
+        </a>
+        <p>一个关于「涌现」的互动专题：简单的规则，重复之后长出复杂的世界。所有画面都由代码实时生成。</p>
+      </div>
+      <div class="foot-nav">
+        <p class="foot-h">房间</p>
+        <div class="foot-list">
+          <a href="rules.html">01 · 规则</a>
+          <a href="perceive.html">02 · 观看</a>
+          <a href="learn.html">03 · 学习</a>
+          <a href="gallery.html">04 · 画廊</a>
+          <a href="studio.html">05 · 工作室</a>
+          <a href="about.html">06 · 关于</a>
+        </div>
+      </div>
+      <div class="foot-info">
+        <p class="foot-h">信息</p>
+        <p>2026 年 · 设计与编码：郑同学</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span class="mono">© 2026 生长实验室</span>
+      <span class="mono">Designed &amp; coded by hand</span>
+    </div>
+  </div>
+  <div class="foot-word" aria-hidden="true">生长</div>
+</footer>
+
+<script src="assets/js/core.js" defer></script>
+<script src="assets/js/gallery.js" defer></script>
+</body>
+</html>
